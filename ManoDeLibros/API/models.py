@@ -1,31 +1,71 @@
 from django.db import models
 import datetime
 
+class Region(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+
+class Ciudad(models.Model):
+    nombre = models.CharField(max_length=100)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Direccion(models.Model):
+    calle = models.CharField(max_length=100)
+    numero = models.IntegerField(default=0)
+    departamento = models.CharField(max_length=10, null=True, blank=True)
+    ciudad = models.ForeignKey(Ciudad, on_delete=models.CASCADE, blank=True, null=True)
+
 class Lector(models.Model):
     nombre = models.CharField(max_length=100)
     sexo = models.CharField(max_length=15)
-    correo = models.EmailField()
+    correo = models.EmailField(null=True, blank= True)
+    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE, blank=True, null=True)
 
+    def __str__(self):
+        return self.nombre
 
 class Dealer(models.Model):
     nombre = models.CharField(max_length=100)
-    lugar = models.CharField(max_length=50)
     fono = models.CharField(max_length=13)
-    correo = models.EmailField()
+    correo = models.EmailField(default='')
     contrasena = models.CharField(max_length=100)
+    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE, null = True, blank=True)
+
+    def __str__(self):
+        return self.nombre
 
 class Pedido(models.Model):
     fecha = models.DateTimeField(default=datetime.datetime.now)
-    total = models.IntegerField()
+    total = models.IntegerField(default=0)
     estado = models.CharField(max_length=15)
-    dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE)
-    lector = models.ForeignKey(Lector, on_delete=models.CASCADE)
+    dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE, blank=True, null=True)
 
 class Editorial(models.Model):
     nombre = models.CharField(max_length=50)
-    lugar = models.CharField(max_length=50)
-    correo = models.EmailField()
+    correo = models.EmailField(default='')
     contrasena = models.CharField(max_length=100)
+    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Autor(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class Genero(models.Model):
+    tipo = models.CharField(max_length = 50, unique=True)
+
+    def __str__(self):
+        return self.tipo
 
 class Libro(models.Model):
     titulo = models.CharField(max_length=100)
@@ -33,27 +73,28 @@ class Libro(models.Model):
     ano = models.IntegerField(default=0)
     genero = models.CharField(max_length=50)
     precio = models.IntegerField(default=0)
-    descripcion = models.TextField()
-    editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE)
-    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    descripcion = models.TextField(default='')
+    editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE, blank=True, null=True)
+    autor = models.ForeignKey(Autor, on_delete=models.CASCADE, blank=True, null=True)
+    genero = models.ForeignKey(Genero, on_delete=models.CASCADE, blank=True, null=True)
 
-
-class Comision(models.Model):
-    porcentaje = models.FloatField()
-    envio = models.IntegerField()
-    pedido = models.OneToOneField(Pedido, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.titulo
 
 
 class Rating(models.Model):
     porcentaje = models.FloatField()
-    dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE)
-    lector = models.ForeignKey(Lector, on_delete=models.CASCADE)
+    lector = models.ForeignKey(Lector, on_delete=models.CASCADE, blank=True, null=True)
+    dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE, blank=True, null=True)
 
-class Direccion(models.Model):
-    nombre = models.CharField(max_length=100)
+class Dealer_Catalogo(models.Model):
+    dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE, blank=True, null=True)
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE, blank=True, null=True)
 
-class Ciudad(models.Model):
-    nombre = models.CharField(max_length=100)
+class Pedido_Libro(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, blank=True, null=True)
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE, blank=True, null=True)
 
-class Region(models.Model):
-    nombre = models.CharField(max_length=100)
+class Pedido_Lector(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, blank=True, null=True)
+    lector = models.ForeignKey(Lector, on_delete=models.CASCADE, blank=True, null=True)

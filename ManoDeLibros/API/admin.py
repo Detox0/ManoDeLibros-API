@@ -4,13 +4,13 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(Editorial)
+admin.site.register(Genero)
+admin.site.register(Autor)
 admin.site.register(Dealer)
 admin.site.register(Lector)
 admin.site.register(Libro)
 admin.site.register(Direccion)
 admin.site.register(Pedido)
-admin.site.register(Comision)
-admin.site.register(Rating)
 admin.site.register(Ciudad)
 admin.site.register(Region)
 
