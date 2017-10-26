@@ -1,13 +1,6 @@
 from .models import *
 from rest_framework import serializers
 
-class DealerSerializer(serializers.ModelSerializer):
-    class Meta:
-
-        model = Dealer
-        fields = ('id', 'nombre', 'lugar', 'fono', 'correo', 'contrasena')
-
-
 class LectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lector
@@ -32,23 +25,29 @@ class LibroSerializer(serializers.ModelSerializer):
         fields = ('id', 'titulo', 'autor', 'ano', 'genero', 'precio', 'descripcion', 'editorial', 'autor')
 
 
-class Ratingerializer(serializers.ModelSerializer):
+class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ('id', 'porcentaje', 'dealer', 'lector')
 
-
-class DireccionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Direccion
-        fields = ('id', 'nombre')
-
-
 class CiudadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ciudad
-        fields = ('id', 'nombre')
+        depth = 1
+        fields = ('id', 'nombre', 'region')
 
+class DireccionSerializer(serializers.ModelSerializer):
+    ciudad = CiudadSerializer()
+    class Meta:
+        model = Direccion
+        
+        fields = ('id', 'calle', 'numero', 'ciudad')
+
+class DealerSerializer(serializers.ModelSerializer):
+    direccion = DireccionSerializer()
+    class Meta:
+        model = Dealer
+        fields = ('id', 'nombre', 'fono', 'correo', 'contrasena', 'direccion')
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,7 +62,7 @@ class GeneroSerializer(serializers.ModelSerializer):
 class AutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Autor
-        fields = ('id', 'tipo')
+        fields = ('id', 'nombre')
 
 class Dealer_CatalogoSerializer(serializers.ModelSerializer):
     class Meta:

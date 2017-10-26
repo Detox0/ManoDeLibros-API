@@ -6,4 +6,6 @@ urlpatterns = [
     url(r'^libros/$', views.libros_list),
     url(r'^regiones/$', views.region_list),
     url(r'^generos/$', views.genero_list),
+    url(r'^direcciones/$', views.direccion_list),
+    url(r'^autores/$', views.autor_list)
 ]

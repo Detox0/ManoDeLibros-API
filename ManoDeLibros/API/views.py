@@ -5,8 +5,8 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from .models import Dealer, Libro, Genero, Region
-from .serializers import DealerSerializer, LibroSerializer, GeneroSerializer, RegionSerializer
+from .models import Dealer, Libro, Genero, Region, Direccion, Autor
+from .serializers import DealerSerializer, LibroSerializer, GeneroSerializer, RegionSerializer, DireccionSerializer, AutorSerializer
 import json
 
 #Retorna todos los dealers inscritos
@@ -43,6 +43,23 @@ def region_list(request):
     if request.method == 'GET':
         regiones = Region.objects.all()
         serializer = RegionSerializer(regiones, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+#Retorna todos las direcciones inscritas
+def direccion_list(request):
+
+    if request.method == 'GET':
+        direcciones = Direccion.objects.all()
+        serializer = DireccionSerializer(direcciones, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+def autor_list(request):
+
+    if request.method == 'GET':
+        autores = Autor.objects.all()
+        serializer = AutorSerializer(autores, many=True)
 
         return JsonResponse(serializer.data, safe=False)
 
