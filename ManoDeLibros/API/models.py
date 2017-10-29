@@ -73,6 +73,7 @@ class Libro(models.Model):
     ano = models.IntegerField(default=0)
     genero = models.CharField(max_length=50)
     precio = models.IntegerField(default=0)
+    cantidad = models.IntegerField(default=0)
     descripcion = models.TextField(default='')
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE, blank=True, null=True)
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE, blank=True, null=True)
