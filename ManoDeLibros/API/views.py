@@ -65,6 +65,27 @@ def autor_list(request):
 
         return JsonResponse(serializer.data, safe=False)
 
+#Retorna los dealers de una ciudad en especifico
+def dealer_city(request,ciudad):
+
+    if request.method == 'GET':
+
+        dealers = Dealer.objects.filter(direccion__ciudad__nombre = ciudad)
+        serializer = DealerSerializer(dealers, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+#Retorna los dealers de una region en especifico
+def dealer_region(request,pk):
+
+    if request.method == 'GET':
+
+        dealers = Dealer.objects.filter(direccion__ciudad__region__id=pk)
+        serializer = DealerSerializer(dealers, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+#Funcion encargada de recibir un JSON con informacion de un autor e insertarlo en la base de datos
 @csrf_exempt
 def create_autor(request):
 
@@ -80,6 +101,7 @@ def create_autor(request):
 
        return JsonResponse(serializer.errors, status=400)
 
+#Funcion encargada de recibir un JSON con informacion de un libro e insertarlo en la base de datos
 @csrf_exempt
 def create_libro(request):
 
