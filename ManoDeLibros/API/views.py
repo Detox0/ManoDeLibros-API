@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Dealer, Libro, Genero, Region, Direccion, Autor
@@ -55,6 +56,7 @@ def direccion_list(request):
 
         return JsonResponse(serializer.data, safe=False)
 
+#Retorna los autores registrados en la base de datos
 def autor_list(request):
 
     if request.method == 'GET':
@@ -63,5 +65,17 @@ def autor_list(request):
 
         return JsonResponse(serializer.data, safe=False)
 
+@csrf_exempt
+def create_autor(request):
 
+    if request.method == 'POST':
 
+       data = JSONParser().parse(request)
+       serializer = AutorSerializer(data=data)
+
+       if serializer.is_valid():
+           serializer.save()
+
+           return JsonResponse(serializer.data, status=201)
+
+       return JsonResponse(serializer.errors, status=400)
