@@ -69,9 +69,7 @@ class Genero(models.Model):
 
 class Libro(models.Model):
     titulo = models.CharField(max_length=100)
-    autor = models.CharField(max_length=100)
     ano = models.IntegerField(default=0)
-    genero = models.CharField(max_length=50)
     precio = models.IntegerField(default=0)
     cantidad = models.IntegerField(default=0)
     descripcion = models.TextField(default='')
