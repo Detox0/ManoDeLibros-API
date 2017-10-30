@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Dealer, Libro, Genero, Region, Direccion, Autor
-from .serializers import DealerSerializer, LibroSerializer, GeneroSerializer, RegionSerializer, DireccionSerializer, AutorSerializer
+from .serializers import DealerSerializer, LibroSerializer, GeneroSerializer, RegionSerializer, DireccionSerializer, AutorSerializer, Dealer_CatalogoSerializer
 import json
 
 #Retorna todos los dealers inscritos
@@ -116,3 +116,20 @@ def create_libro(request):
            return JsonResponse(serializer.data, status=201)
 
        return JsonResponse(serializer.errors, status=400)
+
+
+#Funcion encargada de recibir un ID de dealer y un ID de libro y añadirlo a su catalogo
+@csrf_exempt
+def add_libro_catalogo(request):
+
+    if request.method == 'POST':
+
+        data = JSONParser().parse(request)
+        serializer = Dealer_CatalogoSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
