@@ -7,7 +7,7 @@ class Region(models.Model):
     def __str__(self):
         return self.nombre
 
-
+#asdasd
 class Ciudad(models.Model):
     nombre = models.CharField(max_length=100)
     region = models.ForeignKey(Region, on_delete=models.CASCADE, blank=True, null=True)
@@ -73,6 +73,7 @@ class Libro(models.Model):
     precio = models.IntegerField(default=0)
     cantidad = models.IntegerField(default=0)
     descripcion = models.TextField(default='')
+    imagenURL = models.TextField(default='')
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE, blank=True, null=True)
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE, blank=True, null=True)
     genero = models.ForeignKey(Genero, on_delete=models.CASCADE, blank=True, null=True)

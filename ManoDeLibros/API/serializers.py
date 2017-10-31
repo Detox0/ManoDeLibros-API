@@ -16,13 +16,25 @@ class PedidoSerializer(serializers.ModelSerializer):
 class EditorialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Editorial
-        fields = ('id', 'nombre', 'lugar', 'correo', 'contrasena')
+        fields = ('id', 'nombre', 'correo', 'contrasena')
 
+class GeneroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genero
+        fields = ('id', 'tipo')
+
+class AutorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Autor
+        fields = ('id', 'nombre')
 
 class LibroSerializer(serializers.ModelSerializer):
+    editorial = EditorialSerializer()
+    genero = GeneroSerializer()
+    autor = AutorSerializer()
     class Meta:
         model = Libro
-        fields = ('id', 'titulo', 'ano', 'genero', 'precio', 'cantidad', 'descripcion', 'editorial', 'autor')
+        fields = ('id', 'titulo', 'ano', 'genero', 'precio', 'cantidad', 'descripcion', 'imagenURL', 'editorial', 'autor')
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -52,16 +64,6 @@ class DealerSerializer(serializers.ModelSerializer):
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ('id', 'nombre')
-
-class GeneroSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Genero
-        fields = ('id', 'tipo')
-
-class AutorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Autor
         fields = ('id', 'nombre')
 
 class Dealer_CatalogoSerializer(serializers.ModelSerializer):

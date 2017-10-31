@@ -95,21 +95,18 @@ def dealer_catalogo(request, pk):
 
         catalogos = Dealer_Catalogo.objects.filter(dealer=pk)
 
-        #for catalogo in catalogos:
+        for catalogo in catalogos:
+            id_libros.append(catalogo.libro)
+ 
+        for id in id_libros:
+            libro = Libro.objects.filter(id = id)
+            libros.append(LibroSerializer(libro).data)
 
-#            id_libros.append(catalogo.libro)
+        #erializer = Dealer_CatalogoSerializer(catalogos, many=True)
 
-#        for id in id_libros:
+        return JsonResponse({'libros':libros})
 
-#            libro = Libro.objects.filter(id = id)
-
- #           libros.append(LibroSerializer(libro).data)
-
-        serializer = Dealer_CatalogoSerializer(catalogos, many=True)
-
-        #return JsonResponse({'libros':libros})
-
-        return JsonResponse(serializer.data, safe=False)
+        #return JsonResponse(serializer.data, safe=False)
 
 #Funcion encargada de recibir un JSON con informacion de un autor e insertarlo en la base de datos
 @csrf_exempt
