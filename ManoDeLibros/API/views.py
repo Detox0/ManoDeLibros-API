@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Dealer, Libro, Genero, Region, Direccion, Autor
-from .serializers import DealerSerializer, LibroSerializer, GeneroSerializer, RegionSerializer, DireccionSerializer, AutorSerializer, Dealer_CatalogoSerializer
+from .serializers import *
 import json
 
 #Retorna todos los dealers inscritos
@@ -82,6 +82,32 @@ def dealer_region(request,pk):
 
         dealers = Dealer.objects.filter(direccion__ciudad__region__id=pk)
         serializer = DealerSerializer(dealers, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+#Retorna todos los libros de un catálogo de un dealer
+def dealer_catalogo(request, pk):
+
+    if request.method == 'GET':
+
+        id_libros = []
+        libros = []
+
+        catalogos = Dealer_Catalogo.objects.filter(dealer=pk)
+
+        #for catalogo in catalogos:
+
+#            id_libros.append(catalogo.libro)
+
+#        for id in id_libros:
+
+#            libro = Libro.objects.filter(id = id)
+
+ #           libros.append(LibroSerializer(libro).data)
+
+        serializer = Dealer_CatalogoSerializer(catalogos, many=True)
+
+        #return JsonResponse({'libros':libros})
 
         return JsonResponse(serializer.data, safe=False)
 
