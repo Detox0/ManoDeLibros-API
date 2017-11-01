@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^dealers/catalogo$', views.add_libro_catalogo),
     url(r'^dealers/catalogo/(?P<pk>[0-9]+)$', views.dealer_catalogo),
     url(r'^libros/todos$', views.libros_list),
+    url(r'^libros/genero/(?P<pk>[0-9]+)$$', views.libros_genero),
     url(r'^libros/crear$', views.create_libro),
     url(r'^regiones/$', views.region_list),
     url(r'^generos/todos$', views.genero_list),

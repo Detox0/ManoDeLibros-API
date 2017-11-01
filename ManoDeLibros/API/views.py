@@ -108,6 +108,18 @@ def dealer_catalogo(request, pk):
 
         #return JsonResponse(serializer.data, safe=False)
 
+#Funcion que retorne los libros en base a su genero
+def libros_genero(request,pk):
+
+    if request.method == 'GET':
+
+        libros = Libro.objects.filter(genero__id = pk)
+
+        serializer = LibroSerializer(libros, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+
 #Funcion encargada de recibir un JSON con informacion de un autor e insertarlo en la base de datos
 @csrf_exempt
 def create_autor(request):
