@@ -96,17 +96,18 @@ def dealer_catalogo(request, pk):
         catalogos = Dealer_Catalogo.objects.filter(dealer=pk)
 
         for catalogo in catalogos:
-            id_libros.append(catalogo.libro)
- 
-        for id in id_libros:
-            libro = Libro.objects.filter(id = id)
-            libros.append(LibroSerializer(libro).data)
+            serializer =LibroSerializer(catalogo.libro)
+            id_libros.append(serializer.data)
 
-        #erializer = Dealer_CatalogoSerializer(catalogos, many=True)
+        return JsonResponse({'libros': id_libros})
 
-        return JsonResponse({'libros':libros})
+def all_dealer_catalogos(request):
 
-        #return JsonResponse(serializer.data, safe=False)
+    if request.method == 'GET':
+        
+        catalogos = Dealer_Catalogo.objects.all()
+        serializer = Dealer_CatalogoSerializer(catalogos, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 #Funcion que retorne los libros en base a su genero
 def libros_genero(request,pk):
