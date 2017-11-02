@@ -120,6 +120,16 @@ def libros_genero(request,pk):
 
         return JsonResponse(serializer.data, safe=False)
 
+#Funcion que retorna las ciudades de una region
+def ciudades_region(request,pk):
+
+    if request.method == 'GET':
+
+        ciudades = Ciudad.objects.filter(region__id = pk)
+
+        serializer = CiudadSerializer(ciudades, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
 
 #Funcion encargada de recibir un JSON con informacion de un autor e insertarlo en la base de datos
 @csrf_exempt
