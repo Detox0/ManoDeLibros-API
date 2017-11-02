@@ -69,7 +69,7 @@ class RegionSerializer(serializers.ModelSerializer):
 class Dealer_CatalogoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dealer_Catalogo
-        fields = ('id', 'dealer', 'libro')
+        fields = ('dealer', 'libro')
 
 class Pedido_LectorSerializer(serializers.ModelSerializer):
     class Meta:
