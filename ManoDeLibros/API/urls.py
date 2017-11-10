@@ -12,6 +12,15 @@ urlpatterns = [
     url(r'^libros/genero/(?P<pk>[0-9]+)$', views.libros_genero),
     url(r'^libros/crear$', views.create_libro),
     url(r'^regiones/todas$', views.region_list),
+
+
+    url(r'^libros$', views.libros_avanzado.as_view()),
+    url(r'^dealers$', views.dealer_avanzado.as_view()),
+    url(r'^pedidos$', views.pedido_avanzado.as_view()),
+    url(r'^pedidos/libros$', views.pedido_Libro_avanzado.as_view()),
+    url(r'^dealer/catalogo$', views.catalogo_avanzado.as_view()),
+
+
     url(r'^ciudades/region/(?P<pk>[0-9]+)$', views.ciudades_region),
     url(r'^generos/todos$', views.genero_list),
     url(r'^direcciones/$', views.direccion_list),

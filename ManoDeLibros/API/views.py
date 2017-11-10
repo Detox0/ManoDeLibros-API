@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
 from django.http import JsonResponse, HttpResponse
@@ -8,6 +9,9 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Dealer, Libro, Genero, Region, Direccion, Autor
 from .serializers import *
+from rest_framework import viewsets, generics
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 import json
 
 #Retorna todos los dealers inscritos
@@ -131,6 +135,49 @@ def ciudades_region(request,pk):
 
         return JsonResponse(serializer.data, safe=False)
 
+class catalogo_avanzado(generics.ListAPIView):
+    queryset = Dealer_Catalogo.objects.all()
+    serializer_class = Dealer_CatalogoSerializer
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('libro__titulo', 'libro__genero__tipo', 'libro__ano', 'libro__editorial__nombre', 'libro__autor__nombre')
+    ordering_fields = ('id', 'libro__ano', 'libro__precio', 'libro__id', 'dealer__id')
+    filter_fields = ('dealer__id', 'libro__id', 'dealer__direccion__ciudad__id', 'dealer__direccion__ciudad__nombre', 'dealer__direccion__ciudad__region__id')
+    
+
+
+class libros_avanzado(generics.ListAPIView):
+	queryset = Libro.objects.all()
+	serializer_class = LibroSerializer
+	filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+	search_fields = ('titulo', 'genero__tipo', 'ano', 'editorial__nombre', 'autor__nombre')
+	ordering_fields = ('id', 'ano', 'precio')
+	filter_fields = ('id','autor__nombre','autor__id','genero__id','genero__tipo', 'ano', 'precio')
+    
+class dealer_avanzado(generics.ListAPIView):
+    queryset = Dealer.objects.all()
+    serializer_class = DealerSerializer
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('nombre', 'direccion__ciudad__region__nombre', 'direccion__ciudad__nombre')
+    ordering_fields = ('direccion__ciudad__region__nombre', 'direccion__ciudad__nombre')
+    filter_fields = ('id','direccion__ciudad__region__nombre', 'direccion__ciudad__region__id','direccion__ciudad__nombre', 'direccion__ciudad__id')
+
+class pedido_avanzado(generics.ListAPIView):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('nombre', 'direccion__ciudad__region__nombre', 'direccion__ciudad__nombre', 'dealer__nombre')
+    ordering_fields = ('fecha','estado')
+    filter_fields = ('id','fecha','estado', 'dealer__id','dealer__nombre', 'dealer__direccion__ciudad__nombre', 'dealer__direccion__ciudad__region__nombre')
+
+class pedido_Libro_avanzado(generics.ListAPIView):
+    queryset = Pedido_Libro.objects.all()
+    serializer_class = Pedido_LibroSerializer
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('libro__titulo', 'libro__editorial__nombre', 'libro__autor__nombre', 'libro__genero__tipo')
+    ordering_fields = ('pedido__fecha','pedido_estado')
+    filter_fields = ('id','pedido__id','pedido__fecha','pedido__estado', 'pedido__dealer__id','pedido__dealer__id','pedido__dealer__direccion__ciudad__id', 'pedido__dealer__direccion__ciudad__nombre', 'pedido__dealer__direccion__ciudad__region__nombre', 'pedido__dealer__direccion__ciudad__region__id')
+
+
 #Funcion encargada de recibir un JSON con informacion de un autor e insertarlo en la base de datos
 @csrf_exempt
 def create_autor(request):
@@ -163,8 +210,8 @@ def create_libro(request):
 
        return JsonResponse(serializer.errors, status=400)
 
-
 #Funcion encargada de recibir un ID de dealer y un ID de libro y añadirlo a su catalogo
+
 @csrf_exempt
 def add_libro_catalogo(request):
 
