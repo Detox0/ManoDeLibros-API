@@ -10,7 +10,7 @@ class LectorSerializer(serializers.ModelSerializer):
 class PedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedido
-        fields = ('id', 'fecha', 'total', 'estado', 'dealer', 'lector')
+        fields = ('id', 'fecha', 'total', 'estado', 'dealer')
 
 
 class EditorialSerializer(serializers.ModelSerializer):

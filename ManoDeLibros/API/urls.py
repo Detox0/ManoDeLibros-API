@@ -26,4 +26,10 @@ urlpatterns = [
     url(r'^direcciones/$', views.direccion_list),
     url(r'^autores/todos$', views.autor_list),
     url(r'^autores/crear$', views.create_autor),
+
+    url(r'^pedidos/todos$', views.all_pedidos),
+    url(r'^pedidos/crear$', views.create_pedido),
+    url(r'^pedidos/agregar/libro', views.add_libro_pedido),
+    url(r'^pedidos/libros/(?P<pk>[0-9]+)$', views.libros_pedido),
+
 ]

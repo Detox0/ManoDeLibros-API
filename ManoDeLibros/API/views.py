@@ -95,7 +95,6 @@ def dealer_catalogo(request, pk):
     if request.method == 'GET':
 
         id_libros = []
-        libros = []
 
         catalogos = Dealer_Catalogo.objects.filter(dealer=pk)
 
@@ -104,6 +103,32 @@ def dealer_catalogo(request, pk):
             id_libros.append(serializer.data)
 
         return JsonResponse({'libros': id_libros})
+
+#Retorna todos los libros de un pedido
+def libros_pedido(request, pk):
+
+    if request.method == 'GET':
+
+        id_libros = []
+
+        catalogos = Pedido_Libro.objects.filter(pedido=pk)
+
+        for catalogo in catalogos:
+            serializer =LibroSerializer(catalogo.libro)
+            id_libros.append(serializer.data)
+
+        return JsonResponse({'libros': id_libros})
+
+#Retorna todos los pedidos realizados
+def all_pedidos(request):
+
+    if request.method == 'GET':
+
+        pedidos = Pedido.objects.all()
+
+        serializer = PedidoSerializer(pedidos, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
 
 def all_dealer_catalogos(request):
 
@@ -219,6 +244,39 @@ def add_libro_catalogo(request):
 
         data = JSONParser().parse(request)
         serializer = Dealer_CatalogoSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+
+# Funcion encargada de crear un pedido
+@csrf_exempt
+def create_pedido(request):
+    if request.method == 'POST':
+
+        data = JSONParser().parse(request)
+        serializer = PedidoSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+
+#Funcion encargada de recibir un libro y un pedido y unirlos
+@csrf_exempt
+def add_libro_pedido(request):
+
+    if request.method == 'POST':
+
+        data = JSONParser().parse(request)
+        serializer = Pedido_LibroSerializer(data = data)
 
         if serializer.is_valid():
             serializer.save()
