@@ -46,6 +46,7 @@ class Pedido(models.Model):
     estado = models.CharField(max_length=15)
     dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE, blank=True, null=True)
 
+
 class Editorial(models.Model):
     nombre = models.CharField(max_length=50)
     correo = models.EmailField(default='')

@@ -95,14 +95,17 @@ def dealer_catalogo(request, pk):
     if request.method == 'GET':
 
         id_libros = []
+        selected_dealer = []
+        dealers = Dealer.objects.filter(id=pk)
+        serializer = DealerSerializer(dealers[0])
+        selected_dealer.append(serializer.data)
 
         catalogos = Dealer_Catalogo.objects.filter(dealer=pk)
-
         for catalogo in catalogos:
             serializer =LibroSerializer(catalogo.libro)
             id_libros.append(serializer.data)
 
-        return JsonResponse({'libros': id_libros})
+        return JsonResponse({'dealer': selected_dealer,'libros': id_libros}) #id_libros
 
 #Retorna todos los libros de un pedido
 def libros_pedido(request, pk):
