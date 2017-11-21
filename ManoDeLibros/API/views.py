@@ -122,6 +122,26 @@ def libros_pedido(request, pk):
 
         return JsonResponse({'libros': id_libros})
 
+# Funcion que se encarga de retornar a todos lo usuarios que poseen una contraseña
+def all_users(request):
+
+    if request.method == 'GET':
+        usuarios_dealers = []
+        usuarios_editoriales = []
+
+        dealers = Dealer.objects.all()
+        editoriales = Editorial.objects.all()
+
+        for dealer in dealers:
+            dealers_serializer = DealerSerializer(dealer)
+            usuarios_dealers.append(dealers_serializer.data)
+
+        for editorial in editoriales:
+            editoriales_serializer = EditorialSerializer(editorial)
+            usuarios_editoriales.append(editoriales_serializer.data)
+
+        return JsonResponse({'dealers' : usuarios_dealers, 'editoriales' : usuarios_editoriales})
+
 #Retorna todos los pedidos realizados
 def all_pedidos(request):
 
@@ -160,6 +180,7 @@ def ciudades_region(request,pk):
         ciudades = Ciudad.objects.filter(region__id = pk)
 
         serializer = CiudadSerializer(ciudades, many=True)
+
 
         return JsonResponse(serializer.data, safe=False)
 
