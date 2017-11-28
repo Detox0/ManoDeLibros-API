@@ -122,6 +122,17 @@ def libros_pedido(request, pk):
 
         return JsonResponse({'libros': id_libros})
 
+#Funcion que retorna todas las Editoriales inscritas en la pagina
+def all_editoriales(request):
+
+    if request.method == 'GET':
+
+        editoriales = Editorial.objects.all()
+
+        serializer = EditorialSerializer(editoriales, many=True)
+
+        return JsonResponse(serializer.data , safe= False)
+
 # Funcion que se encarga de retornar a todos lo usuarios que poseen una contraseña
 def all_users(request):
 

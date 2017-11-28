@@ -34,4 +34,5 @@ urlpatterns = [
 
     url(r'^usuarios/todos$', views.all_users),
 
+    url(r'^editoriales/todas$', views.all_editoriales),
 ]
