@@ -303,6 +303,37 @@ def create_pedido(request):
 
         return JsonResponse(serializer.errors, status=400)
 
+#Funcion encargada de crear un lector
+@csrf_exempt
+def create_lector(request):
+    if request.method == 'POST':
+
+        data = JSONParser().parse(request)
+        serializer = LectorSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+#Funcion encargada de unir a un lector a un pedido
+@csrf_exempt
+def add_lector_pedido(request):
+
+    if request.method == 'POST':
+
+        data = JSONParser().parse(request)
+        serializer = Pedido_LectorSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
 
 #Funcion encargada de recibir un libro y un pedido y unirlos
 @csrf_exempt

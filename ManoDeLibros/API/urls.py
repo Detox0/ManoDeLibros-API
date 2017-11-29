@@ -35,4 +35,7 @@ urlpatterns = [
     url(r'^usuarios/todos$', views.all_users),
 
     url(r'^editoriales/todas$', views.all_editoriales),
+
+    url(r'^lectores/crear$', views.create_lector),
+    url(r'^lectores/pedidos', views.add_lector_pedido),
 ]

@@ -14,4 +14,5 @@ admin.site.register(Pedido)
 admin.site.register(Ciudad)
 admin.site.register(Region)
 admin.site.register(Dealer_Catalogo)
+admin.site.register(Pedido_Lector)
 
