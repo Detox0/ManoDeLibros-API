@@ -105,7 +105,7 @@ def dealer_catalogo(request, pk):
             serializer =LibroSerializer(catalogo.libro)
             id_libros.append(serializer.data)
 
-        return JsonResponse({'dealer': selected_dealer,'libros': id_libros}) #id_libros
+        return JsonResponse(id_libros, safe=False) #id_libros
 
 #Retorna todos los libros de un pedido
 def libros_pedido(request, pk):

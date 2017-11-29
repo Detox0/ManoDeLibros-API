@@ -6,7 +6,7 @@ urlpatterns = [
     url(r'^dealers/ciudad/(?P<ciudad>[\w\-]+)$', views.dealer_city),
     url(r'^dealers/region/(?P<pk>[0-9]+)$', views.dealer_region),
     url(r'^dealers/catalogo$', views.add_libro_catalogo),
-    url(r'^dealers/catalogo/(?P<pk>[0-9]+)$', views.dealer_catalogo),
+    url(r'^dealers/(?P<pk>[0-9]+)/catalogo$', views.dealer_catalogo),
     url(r'^dealers/catalogo/todos$', views.all_dealer_catalogos),
     url(r'^libros/todos$', views.libros_list),
     url(r'^libros/genero/(?P<pk>[0-9]+)$', views.libros_genero),
