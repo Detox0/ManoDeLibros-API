@@ -195,6 +195,7 @@ def ciudades_region(request,pk):
 
         return JsonResponse(serializer.data, safe=False)
 
+
 class catalogo_avanzado(generics.ListAPIView):
     queryset = Dealer_Catalogo.objects.all()
     serializer_class = Dealer_CatalogoSerializer
@@ -211,7 +212,7 @@ class libros_avanzado(generics.ListAPIView):
 	filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
 	search_fields = ('titulo', 'genero__tipo', 'ano', 'editorial__nombre', 'autor__nombre')
 	ordering_fields = ('id', 'ano', 'precio')
-	filter_fields = ('id','autor__nombre','autor__id','genero__id','genero__tipo', 'ano', 'precio')
+	filter_fields = ('id','autor__nombre','autor__id','genero__id','genero__tipo', 'ano', 'precio', 'editorial__nombre', 'editorial__id')
     
 class dealer_avanzado(generics.ListAPIView):
     queryset = Dealer.objects.all()
@@ -286,7 +287,6 @@ def add_libro_catalogo(request):
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
-
 
 # Funcion encargada de crear un pedido
 @csrf_exempt
