@@ -365,7 +365,7 @@ def add_libro_pedido(request):
 
 
 @csrf_exempt
-def generar_pago(request,data_subject,data_amount,data_payer_email,data_notify_url,data_return_url, data_cancel_url):
+def generar_pago(request,data_subject,pedido_id,data_amount,data_payer_email,data_notify_url,data_return_url, data_cancel_url):
 
     if request.method == 'GET':
 
@@ -377,7 +377,7 @@ def generar_pago(request,data_subject,data_amount,data_payer_email,data_notify_u
         payer_email = data_payer_email
         bank_id ='' 
         expires_date = ''
-        transaction_id = ''
+        transaction_id = pedido_id
         custom = ''
         notify_url = data_notify_url
         return_url = data_return_url
