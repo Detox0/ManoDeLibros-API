@@ -241,6 +241,14 @@ class pedido_Libro_avanzado(generics.ListAPIView):
     ordering_fields = ('pedido__fecha','pedido_estado')
     filter_fields = ('id','pedido__id','pedido__fecha','pedido__estado', 'pedido__dealer__id','pedido__dealer__id','pedido__dealer__direccion__ciudad__id', 'pedido__dealer__direccion__ciudad__nombre', 'pedido__dealer__direccion__ciudad__region__nombre', 'pedido__dealer__direccion__ciudad__region__id')
 
+class lector_avanzado(generics.ListAPIView):
+    queryset = Lector.objects.all()
+    serializer_class = LectorSerializer
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('correo','nombre')
+    ordering_fields = ('correo','nombre','id')
+    filter_fields = ('correo','id')
+    
 
 #Funcion encargada de recibir un JSON con informacion de un autor e insertarlo en la base de datos
 @csrf_exempt

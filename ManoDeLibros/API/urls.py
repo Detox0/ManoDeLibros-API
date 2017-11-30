@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^pedidos$', views.pedido_avanzado.as_view()),
     url(r'^pedidos/libros$', views.pedido_Libro_avanzado.as_view()),
     url(r'^dealer/catalogo$', views.catalogo_avanzado.as_view()),
+    url(r'^lector$', views.lector_avanzado.as_view()),
 
 
     url(r'^ciudades/region/(?P<pk>[0-9]+)$', views.ciudades_region),
