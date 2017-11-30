@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^libros/crear$', views.create_libro),
     url(r'^regiones/todas$', views.region_list),
 
+    url(r'^generar_pago/subject=(?P<data_subject>[\w\-]+)&amount=(?P<data_amount>[\w\-]+)&data_payer_email=(?P<data_payer_email>[^@]+@[^@]+\.[^@]+)$', views.generar_pago),
+
 
     url(r'^libros$', views.libros_avanzado.as_view()),
     url(r'^dealers$', views.dealer_avanzado.as_view()),

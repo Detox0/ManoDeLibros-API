@@ -13,6 +13,9 @@ from rest_framework import viewsets, generics
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 import json
+import hmac
+import hashlib
+import base64
 
 #Retorna todos los dealers inscritos
 def dealer_list(request):
@@ -335,6 +338,7 @@ def add_lector_pedido(request):
         return JsonResponse(serializer.errors, status=400)
 
 
+
 #Funcion encargada de recibir un libro y un pedido y unirlos
 @csrf_exempt
 def add_libro_pedido(request):
@@ -350,3 +354,37 @@ def add_libro_pedido(request):
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+def generar_pago(request,data_subject,data_amount,data_payer_email):
+    print "--------------------->TESTER1"
+    if request.method == 'GET':
+
+        #data = JSONParser().parse(request)
+        #serializer = Pago_Serializer(data=data)
+        url_final = []
+        #if serializer.is_valid():
+        secret = 'e6733a41e12675fdd82b0fcde72e13862e2e5fdf'
+        receiver_id = '154271'
+        subject = data_subject
+        body = ''
+        amount = data_amount
+        payer_email = data_payer_email
+        bank_id ='' 
+        expires_date = ''
+        transaction_id = ''
+        custom = ''
+        notify_url = ''
+        return_url = ''
+        cancel_url = ''
+        picture_url = ''
+        hash_data="receiver_id="+receiver_id+"&subject="+subject+"&body="+body+"&amount="+amount+"&payer_email="+payer_email+"&bank_id="+bank_id+"&expires_date="+expires_date+"&transaction_id="+transaction_id+"&custom="+custom+"&notify_url="+notify_url+"&return_url="+return_url+"&cancel_url="+cancel_url+"&picture_url="+picture_url
+        hash_result = hmac.new(str(secret), str(hash_data), digestmod=hashlib.sha256).hexdigest()
+        url = "https://khipu.com/api/1.3/createPaymentPage?receiver_id="+receiver_id+"&subject="+subject+"&body="+body+"&amount="+amount+"&notify_url="+notify_url+"&return_url="+return_url+"&cancel_url="+cancel_url+"&transaction_id="+transaction_id+"&expires_date="+expires_date+"&payer_email="+payer_email+"&custom="+custom+"&hash="+hash_result
+        
+        url_final.append(url)
+
+            #return JsonResponse({'url_pago':url})
+
+        return JsonResponse({'url_pago': url})
