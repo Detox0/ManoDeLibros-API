@@ -75,6 +75,7 @@ class Libro(models.Model):
     cantidad = models.IntegerField(default=0)
     descripcion = models.TextField(default='')
     imagenURL = models.TextField(default='')
+    fecha = models.DateField(default=datetime.datetime.now)
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE, blank=True, null=True)
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE, blank=True, null=True)
     genero = models.ForeignKey(Genero, on_delete=models.CASCADE, blank=True, null=True)

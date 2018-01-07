@@ -12,6 +12,8 @@ from .serializers import *
 from rest_framework import viewsets, generics
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from django.core.mail import send_mail
+from django.db.models import Count
 import json
 import hmac
 import hashlib
@@ -23,6 +25,14 @@ def dealer_list(request):
     if request.method == 'GET':
         dealers = Dealer.objects.all()
         serializer = DealerSerializer(dealers, many=True)
+
+        #send_mail(
+        #    'Prueba envio mensajes Django',
+        #    'Hello world!',
+        #    'vallejos.sa@gmail.com',
+        #    ['sebastian.vallejos@usach.cl'],
+        #    fail_silently=False,
+        #)
 
         return JsonResponse(serializer.data, safe=False)
 
@@ -195,6 +205,17 @@ def ciudades_region(request,pk):
 
         serializer = CiudadSerializer(ciudades, many=True)
 
+
+        return JsonResponse(serializer.data, safe=False)
+
+#Funcion encargada de retornar los ultimos 10 libros añadidos
+def ultimos_libros(request,cantidad):
+
+    if request.method == 'GET':
+
+        libros = Libro.objects.annotate(Count('fecha')).order_by('-fecha__count')[:cantidad]
+
+        serializer = LibroSerializer(libros, many=True)
 
         return JsonResponse(serializer.data, safe=False)
 

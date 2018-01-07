@@ -125,3 +125,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Host for sendind emails
+EMAIL_HOST = '192.168.1.255'
+
+# Port for sending emails
+EMAIL_PORT = '8080'

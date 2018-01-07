@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^libros/todos$', views.libros_list),
     url(r'^libros/genero/(?P<pk>[0-9]+)$', views.libros_genero),
     url(r'^libros/crear$', views.create_libro),
+    url(r'^libros/ultimos/(?P<cantidad>[0-9]+)$', views.ultimos_libros),
     url(r'^regiones/todas$', views.region_list),
 
     url(r'^generar_pago/subject=(?P<data_subject>[a-zA-Z0-9 ]+)&amount=(?P<data_amount>[\w\-]+)&payer_email=(?P<data_payer_email>[^@]+@[^@]+\.[^@]+)&pedido_id=(?P<pedido_id>[a-zA-Z0-9 ]+)&notify_url=(?P<data_notify_url>http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)&return_url=(?P<data_return_url>http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)&cancel_url=(?P<data_cancel_url>http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)$', views.generar_pago),
