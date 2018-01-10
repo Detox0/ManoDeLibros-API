@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^libros/crear$', views.create_libro),
     url(r'^libros/ultimos/(?P<cantidad>[0-9]+)$', views.ultimos_libros),
     url(r'^libros$', views.libros_avanzado.as_view()),
+    url(r'^libros/top/(?P<cantidad>[0-9]+)$', views.top_libros),
 
     url(r'^regiones/todas$', views.region_list),
     url(r'^ciudades/region/(?P<pk>[0-9]+)$', views.ciudades_region),

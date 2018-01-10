@@ -29,7 +29,21 @@ def generos_vendidos(request,cantidad):
 
         serializer = GeneroSerializer(generos, many=True)
 
+        #incrementar_ventas_libros(1)
+
         return JsonResponse(serializer.data, safe=False)
+
+
+#Funcion que retorna los libros mas vendidos dentro de la pagina
+def top_libros(request,cantidad):
+
+    if request.method == 'GET':
+
+        libros = Libro.objects.annotate(Count('venta')).order_by('-venta__count')[:cantidad]
+
+        serializer = LibroSerializer(libros, many=True)
+
+        return JsonResponse(serializer.data, safe = False)
 
 
 #Retorna todos los dealers inscritos
@@ -422,3 +436,27 @@ def generar_pago(request,data_subject,pedido_id,data_amount,data_payer_email,dat
         url = "https://khipu.com/api/1.3/createPaymentPage?receiver_id="+receiver_id+"&subject="+subject+"&body="+body+"&amount="+amount+"&notify_url="+notify_url+"&return_url="+return_url+"&cancel_url="+cancel_url+"&transaction_id="+transaction_id+"&expires_date="+expires_date+"&payer_email="+payer_email+"&custom="+custom+"&hash="+hash_result       
         
         return JsonResponse({'url_pago': url})
+
+
+#Funcion encargada de actualizar los cambos de la bd correspondiente a la cantidad de libros vendidos
+def incrementar_ventas_libros(pedido_id):
+
+    #Primero, buscamos los libros del pedido
+    pedidos = Pedido_Libro.objects.filter(pedido = pedido_id)
+
+    #Luego incrementamos los valores de venta tanto en el genero del libro como en el libro mismo
+    for pedido in pedidos:
+
+        libro = Libro.objects.filter(id = pedido.libro)
+
+        libro.venta += 1
+
+        libro.save()
+
+        genero = Genero.objects.filter(id = libro.genero)
+
+        genero.ventas += 1
+
+        genero.save()
+
+    return 1

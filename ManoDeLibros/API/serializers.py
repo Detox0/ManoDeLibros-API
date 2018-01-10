@@ -34,7 +34,7 @@ class LibroSerializer(serializers.ModelSerializer):
     autor = AutorSerializer()
     class Meta:
         model = Libro
-        fields = ('id', 'titulo', 'ano', 'genero', 'precio', 'cantidad', 'descripcion', 'imagenURL','fecha', 'editorial', 'autor')
+        fields = ('id', 'titulo', 'ano', 'genero', 'precio', 'cantidad', 'descripcion', 'imagenURL','fecha', 'venta','editorial', 'autor')
 
 
 class RatingSerializer(serializers.ModelSerializer):
