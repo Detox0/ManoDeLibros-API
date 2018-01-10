@@ -127,7 +127,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Host for sendind emails
-EMAIL_HOST = '192.168.1.255'
+EMAIL_HOST = '192.168.1.53'
 
 # Port for sending emails
 EMAIL_PORT = '8080'

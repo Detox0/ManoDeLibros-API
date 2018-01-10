@@ -64,6 +64,7 @@ class Autor(models.Model):
 
 class Genero(models.Model):
     tipo = models.CharField(max_length = 50, unique=True)
+    ventas = models.IntegerField(default=0)
 
     def __str__(self):
         return self.tipo

@@ -19,6 +19,19 @@ import hmac
 import hashlib
 import base64
 
+
+#Funcion encargada de retornar los generos mas vendidos con su cantidad
+def generos_vendidos(request,cantidad):
+
+    if request.method == 'GET':
+
+        generos = Genero.objects.annotate(Count('ventas')).order_by('-ventas__count')[:cantidad]
+
+        serializer = GeneroSerializer(generos, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
+
+
 #Retorna todos los dealers inscritos
 def dealer_list(request):
 
@@ -26,13 +39,13 @@ def dealer_list(request):
         dealers = Dealer.objects.all()
         serializer = DealerSerializer(dealers, many=True)
 
-        #send_mail(
-        #    'Prueba envio mensajes Django',
-        #    'Hello world!',
-        #    'vallejos.sa@gmail.com',
-        #    ['sebastian.vallejos@usach.cl'],
-        #    fail_silently=False,
-        #)
+        send_mail(
+            'Prueba envio mensajes Django',
+            'Hello world!',
+            'vallejos.sa@gmail.com',
+            ['sebastian.vallejos@usach.cl'],
+            fail_silently=False,
+        )
 
         return JsonResponse(serializer.data, safe=False)
 

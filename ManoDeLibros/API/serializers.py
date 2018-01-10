@@ -21,7 +21,7 @@ class EditorialSerializer(serializers.ModelSerializer):
 class GeneroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genero
-        fields = ('id', 'tipo')
+        fields = ('id', 'tipo', 'ventas')
 
 class AutorSerializer(serializers.ModelSerializer):
     class Meta:
