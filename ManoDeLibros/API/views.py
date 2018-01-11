@@ -53,13 +53,13 @@ def dealer_list(request):
         dealers = Dealer.objects.all()
         serializer = DealerSerializer(dealers, many=True)
 
-        send_mail(
-            'Prueba envio mensajes Django',
-            'Hello world!',
-            'vallejos.sa@gmail.com',
-            ['sebastian.vallejos@usach.cl'],
-            fail_silently=False,
-        )
+        #send_mail(
+         #   'Prueba envio mensajes Django',
+          #  'Hello world!',
+           # 'vallejos.sa@gmail.com',
+            #['sebastian.vallejos@usach.cl'],
+            #fail_silently=False,
+        #)
 
         return JsonResponse(serializer.data, safe=False)
 
